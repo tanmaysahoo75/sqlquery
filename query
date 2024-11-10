@@ -1,0 +1,832 @@
+1.Number
+columnname datatype (size)
+ex:
+rollno number size ....you can give or not bydefaul it will take 
+2.character datatype is a fixed length  (it can contain alpha numeric value)
+ex:
+sname char (10)
+varchar2   it will also contain both alpha numeric and numeric values
+3.date datatype
+columnname datatype(size)
+
+how to create table ?
+create table tablename.
+
+create table student
+(
+columnname number,
+columnname varchar2 (10)
+);
+create table student
+(
+srn number,
+sname varchar2(10)
+);
+
+DDL// data defination language
+it works on the structure of a table. it will create column.
+\\
+create table tablename 
+(
+columnname datatype size,
+columnname datatype size
+);
+
+describe student;
+desc student;
+
+alter
+add,modify,drop,rename
+alter table tablename
+add
+(
+columnname datatype size,
+columnname datatype size
+);
+
+for single column bracet is not mandatory ,for best practices we use bracet
+
+
+alter table student
+add
+(
+sph number,
+sadd varchar2 (10)
+);
+desc student;
+describe student;
+
+
+alter table student
+modify
+(
+sname varchar2 (50),
+srn number
+);
+desc student;
+describe student;
+we cannot modify columnname, we can modify datatype,size.
+drop 
+alter table tablename
+drop column columnname;
+drop (column1,clumn2);
+
+
+alter table student
+drop column srn;
+desc student;
+
+
+Rename
+it is used to rename a particular column
+
+alter table tablename
+rename column oldcolumnname to newcolumnname;
+
+alter table student rename column sname to fname;
+
+
+--------------------------------------------------------------------
+
+
+previously we drop the column,
+
+
+drop table tablename;
+
+
+drop table student;
+
+desc student;
+
+
+How to recover a table after a drop?
+flashback table tablename to before drop;
+
+flashback table salary to before drop;
+
+ drop table tablename purge;
+ 
+ rename oldtablename to newtablename
+ 
+ rename student to student123;
+ 
+ 
+ desc student123;
+ 
+ trucate
+it will delete all the record of a table.
+suppose if table having 1 lakh rows it will delete all rows.
+
+ copy table content from existing table. 
+create table tablename as select * from oldtablename;
+
+if you want to copy only stucture then you need to give any false condition;
+
+
+select * from tab;
+select * from job_history;
+
+create table job1_history as select * from  job_history;
+select * from job1_history;
+
+
+create table job1_history as select * from  job_history where 1=2;
+
+-------------------------------------------
+
+DML
+data manupulation language
+
+create table student (sname varchar2(10),sno number);
+insert into tablename values ('tanmay',1200);
+address method
+insert into tablename values('&sname',&sno)
+
+insert into tablename(sname) values('tanmay');
+
+blank value--- 
+
+what is a null value
+null is a undefined and unassigned value
+any arithmetic operation with null value is null value and one null value is not equal to another null value/
+
+
+update --- it will update some record into existing table.
+
+update tablename set columnname=values;  it will change all record to values.
+
+
+update tablename set columnname1=values where columnname2 =value;
+
+where clause is used to restrict the data;
+
+
+truncate delete all the records at time but 
+
+________________________________
+
+select columnname from tablename where condition group by expression having condition order by asc/desc;
+
+set linesize 200;
+set pagesize 200;
+
+select * from emp;
+
+select job,ename from emp;
+
+operator
+arithmetic operation possible only on number data types
+
+ i want to display employee name,job,salary?
+ 
+select ename,job,sal from emp;
+
+ select ename,job,sal,sal *100 from emp;
+ 
+ waq to give 10% bonus to each employee?
+ arithmetic operation works on number data types
+ 
+ select sal, comm , sal +comm from emp from emp;
+ 
+ any arithmetic operation with null value will reamin null.
+ 
+ 
+select sal, comm , sal +comm as bonus from emp from emp;
+
+this is known as column alias , it is a short name given to a column, its valid only for current session only .
+
+select sal,comm, sal+comm "annual bonus" from emp;
+
+relational operator
+-------------------
+disp all the emp no and their name whose sal grater than 3000?
+select ename,job from emp where sal>3000;
+ 
+ select ename,job from emp where sal>=5000;
+
+disp all the emp no and their name whose sal not equal to 3000?
+select ename,job from emp where sal<>5000;
+
+what is the use of where clause?
+where we are using to  restrict the rows. e.g in emp table if we do select * from emp itw ill
+give you all the rows incase we want emp details with condition where cluse will restrict and give o/p.
+
+select * from emp1 where job = 'MANAGER' and sal >2000;
+and will check all the condition then result is true.
+
+select * from emp1 where job = 'MANAGER' and sal >2000 and deptno = 20;
+
+select * from emp1 where job = 'MANAGER' or sal>2000 or deptno=20;
+any condition true ans will come.
+select * from emp1 where sal>=2000 and sal <=5000;
+
+select * from emp1 where sal between 2000 and 5000;
+
+emp details who are not getting commision?
+select *from emp1 where comm = null;
+null cannot be operated with any arithmetic operation
+
+select * from emp1 where comm is null;
+
+select * from emp1 where comm is not null;
+
+
+select * from emp1 where deptno in(10,20);
+
+it works faster than or and operator
+
+select * from emp1 where deptno not in(10,20);
+employee name start with A
+select * from emp1 where ename like 'A%';
+select * from emp1 where ename like '%T';
+select * from emp1 where ename like '%AL%';
+
+select * from emp1 where ename like '_%L';
+
+select * from emp1 where ename like '__L%';
+select * from emp1 where ename like '_%LL';
+
+_______________________________________________
+------------------------------------------------
+
+Group BY 
+
+function 
+
+select min(sal) from emp;
+select max(sal) from emp;
+
+select avg(sal) from emp;
+
+select sum(sal) from emp;
+select count(*) from emp;
+
+select count(comm) from emp;
+
+group by it arragnge similar data type inti groups
+select count(ename), job from emp group by job;
+
+
+select max(sal),job from emp group by job;
+
+having clause
+
+disp job wise max sal but max sal must be greater tha 2500?
+
+
+incase of where clause you cannot use max or group function.
+
+if you are using all clause it should be arrange in sytematic order.
+where clause we are restricting rows
+having clause we are using to restricting groups from groups of data.
+
+select * from emp order by sal;
+it will sort the sal column
+select * from emp order by sal desc;
+
+select * from emp order by comm;
+
+ 
+
+
+
+--------------------------
+
+constrains we use to limit the type of data which will go intio the table.
+
+Not null, unique, foreign, check constrant
+create table book(bprice number not null);
+
+column level and table level
+when we define in column while creating table .
+
+ insert into tablename values(&sno);
+unique contraint -- not allowed duplicate value inti the table
+
+create table chair (cprice number unique);
+insert into tablename values(&cprice);
+
+insert null twice
+it will inserted becuase null values are not equal
+
+
+craete table house(
+hprice number,
+hno number ,
+hadd number
+,
+unique(hprice,hno));
+table label declaration
+
+
+enter 100 242 767
+100 243 676
+
+it will take in pair , if unique constraint is applied on more than one comuln then is composite
+
+uniq and not null combination is known as primary constraint.
+in a table only one primarykey possible.
+
+ create table stud(sroll number primarykey);
+ 
+ if we create more than one primary key in table then its known as composite primary key.
+ 
+ max 32 column you can declare composite key.
+ 
+ 
+ 
+--------------------------------------
+
+forign key is required to establish connection between two tables.
+
+foreign key can conatin duplicate value , its also known as referential integrety constraint.
+
+master and slave concept , mater table have primary constraint
+
+
+
+craete table home(hid number primary key);  master table
+we will craete foreign column in another table.
+
+primary key table and foreign column data type must be same.
+
+create table home1(hno number references home (hid));
+insert into home values(&hid);
+{12 20 40 50 60}
+insert into home1 values(&hno);
+{30} 
+o/p integrity constraint violated
+
+it will take duplicate values also
+
+select * from home ;
+select * from home1;
+
+delete from home where hid= 50;
+you cannot delete record directly from primary table , you need to delete
+the child record first.
+delete from home1 where hno = 20;
+
+
+to avoid such scenerios oracle introduce on delete cascade and set null conscept.
+
+
+create table bus(bno numbaer primary key)
+
+create table bus1(bno  numbaer primary key)
+
+
+create table bus2(bid number references bus1(bno) on delete cascade);
+
+
+select * from bus1,bus2;
+delete from bus1 where bno=10;
+
+
+select * from bus2;
+on delete cascade
+if we delete record from primary key table then FK table record automatically delete
+set null
+if we delete record from primary key table then FK table record automatically set to null;
+
+table lable syntax
+craete table car1( cid number , cm number, foreign key (cm) references car (cno));
+
+check constrains
+it is used to satisfy the business rule
+
+create table person (pid number, pa number check(pa>20));
+
+insert into person values(&pid,&pa);
+
+create table van(vno number constraint xyz not null);
+how to know which constraint declare on a table?
+
+every thing in pracle is object 
+
+select * from tab;
+it will show all the table in oracle;
+describe user_constraints;
+select owner,constraint_name,constraint_type from user_constraintswhere table_name ='BUS1';
+ 
+select owner,constraint_name,constraint_type from user_constraintswhere table_name ='sahu';
+desc user_cons_columns;
+
+select * from user_cons_columns where table_name='van';
+
+desc van;
+alter table van add (vid numbaer not null);
+
+if we want to add constrains to existing table its possible but clumn should be empty;
+
+alter table van2 add primary key (vid));
+
+
+-------------------------------------------------
+--------------------------------------------------
+
+TCL
+
+transaction control language
+commit 
+roll back
+savepoint
+
+
+after every dml operation we need to commit it;
+ddl transaction is auto commit
+
+create table trusck(tno number,tid numbaer);
+
+insert into truck values(&tno,&tid);
+
+
+commit;
+
+it will save the transaction
+insert into truck values(&tno,&tid);
+select*from tablename;
+rollback ;
+select * from table;
+because we didnot commit it became rollback i.e uno the transaction
+
+
+suppose we have created 100 record if we execute roll back 
+it will be lost.to avoid this we use save point.
+
+insert into truck values(&tno,&tid);
+insert into truck values(&tno,&tid);
+
+savepoint s1;
+insert into truck values(&tno,&tid);
+insert into truck values(&tno,&tid);
+savepoint s2;
+
+select * from truck;
+
+rollback to savepoint s1;
+select * from truck;
+
+what is diff b/w delete and trucate?
+
+trucateis ddl and delete is dml;
+delete will delet row by row and can delete all recode but
+inacse of truncste it will delet all recods.
+incase of truncate roll bace is not possible but inacse of delet its possible.
+roll bacl possible in delet menas it have an recycle bin which is not possible in tuncate
+hence truncate is faster than delete command.
+
+
+drop and delete
+drop deletes the structure and delete don't.
+
+-------------------------------------------------------------
+----------------------------------------------------------
+
+Join
+
+select * from emp;
+select * from dept;
+
+display
+empname,job,depto no from tabel
+
+to join table n-1 condition required.
+
+there should be a common column in the table we are joining.
+
+
+equi join or inner join.
+
+it will return all the rows from the multiple table.
+
+
+select columns from table1 inner join table2 on table1.common columnname= table2. common columnname
+
+
+select ename ,job,dname from emp inner join dept on emp.deptno=dept.deptno;
+
+equi join is also known as inner join.
+
+select ename ,job,dname,deptno from emp inner join dept on emp.deptno=dept.deptno;
+it will o/p column ambiguiosly defined
+
+when column name occurs in more than one column then it gives error.
+we use alias name
+
+
+select e.ename,e.job,e.dname,d.deptno from emp e inner join dept d on e.deptno=d.deptno;
+
+select e.ename,e.job,e.dname,d.deptno from emp e , dept d where e.deptno=d.deptno;
+
+select * from dept;
+inner join/equi join always provide the matching rows from both the table
+it will not dips deptno 40 
+
+outer join
+
+left outer join and right outer join
+
+left outer will disp all records from left side table but only matching record from table 2.
+select e.ename,e.job,e.dname,d.deptno from emp e left outer join dept d on e.deptno=d.deptno;
+
+40 deptno wil not show becoz it in table 2
+
+select e.ename,e.job,e.dname,d.deptno from emp e right outer join dept d on e.deptno=d.deptno;
+
+non matching columnwill remain null.
+
+
+select e.ename,e.job,e.dname,d.deptno from emp e full outer join dept d on e.deptno=d.deptno;
+
+non equi join
+
+select * from salgrade;
+disp ename n sal and salary grade.
+
+lowsal and high sal common column
+select e.ename,e.sal,s.grade from emp e ,salgrade s where e.sal between s.losal and s.hisal;
+
+
+select e.ename,e.job,e.deptno,d.dname,d.loc from emp e join dept d using (deptno); 
+
+select e.ename,e.job,deptno,d.dname,d.loc from emp e join dept d using (deptno); donot give alias to common column
+
+select e.ename,e.job,e.deptno,d.dname,d.loc from emp e natural join dept d ;
+
+
+give emp name , job and manager  
+
+self join
+joining a table itself
+
+select e1.ename employee,e2.ename mgr from emp  e1 , emp e2 where e1.mgr =e2.empno;
+
+
+
+
+-------------------------------------------------------
+
+VIEW
+its as logical represantation of adta , it doesn' have phisical existence
+create view v1 as select empno,ename from emp1;
+
+simple view- derived from one table
+complex view -multiple table
+complex view dml operation not allowed
+
+
+select rowid from emp1;
+select rowid from v1;
+
+row id is a fix hexadecimal number that is assigned to each and rvery roe of a table.
+these are unique.
+
+select * from v1;
+delete from v1 where ename ='KING';
+
+select * from emp;
+it will impact base table also.
+
+delete from emp1 where ename ='SCOTT';
+
+select * from v1;
+
+through view we can access the person of a table.
+you can pefomr any operation in any table view or base 
+both of them are impacted.
+
+
+for security purpose we are using view.
+
+create view v2 as select * from emp1 with read only;
+
+upadte v2 set sal = 1-- where sal=5000;
+
+we cannot perform any modifiaction in view table with read only condition.
+
+but we can upadte on base table.
+
+
+create view v3 as select * from emp1 where deptno = 20 with check option;
+insert into v3(deptno) values(30);
+
+insert into v3(deptno) values(20);
+
+
+------------------------------------------
+
+FUNCTION
+
+block unit whichwill take more than one  argument and out put is one
+number ,character, date ,group
+
+number function take input number and output is also number.
+
+select * from dual;
+
+dummy table in oracle having one table a 
+
+select abs(-30) from dual;
+
+select mod(10,2) from dual;
+
+select round(94.3)from dual;
+
+select round(10.2389,3)from dual;
+
+select round(10.1354,3)from dual;
+select trunc(10.238,3) from dual;
+
+
+select greatest(10,20,40) from dual;
+
+select least (10.40,20) from dual;
+select ceil(1.2) from dual;
+select floor(1.3)from dual;
+
+select upper('tanmay') from dual;
+
+select lower ('TANMY') from dual;
+
+
+select initcap('tanmay') from dual;
+
+select lenght ('my name is something') from dual;
+
+SUBSTRING
+to extract a person from a string is known as sub string.
+select substr('ABCDEF',2,3) from dual;
+
+select substr('ABCDEFGH',3,2) from dual;
+ 
+select substr('ABCDEFGH',-3,2) from dual;
+
+select * from emp;
+
+select ename from emp where substr(ename,2,2) ='LA';
+
+Ltrim /Rtrim
+select ltrim ('SSMITHSS','s')from dual;
+consecutive character it will trim 
+
+select rtrim ('SSMITHSS','s')from dual;
+
+select trim ('s' from 'SSMITHSS')from dual;
+
+select lpad('ABCDEF',10,'*') from dual;
+
+select rpad('ABCDEF',10,'*') from dual;
+
+Translate /Replace
+select translate('ASISH','S','K') from dual;
+
+select translate('ASISH','S','MNP') from dual;
+single character will be replaces here
+
+
+select replace('ASISH','S','M') from dual;
+single character will be replaces here
+select replace('ASISH','S','KLM') from dual;
+it can replace string by string
+
+select replace('ASISH','AS','KL') from dual;
+
+select instr(STRING,SUBSTRING,POSITION,OCCURANCE) from dual;
+
+select instr('this is a string','th',1,1) from dual;
+
+it used to find the position of a string 
+ 
+select instr('thisisthething','is',1,2) from dual;
+
+select instr('thisisthething','is',1,1) from dual;
+
+
+
+--------------------------------------------------------
+
+SUBQUERY
+
+query within a query is known as subquery.
+
+
+child will be input for the parent query.
+
+you cannot user order by in sub query 
+if sub query return greater than one row then we use in operator , cannot use equal to operator.
+
+select * from emp where hiredate =(select min(hiredate) from emp);
+
+listout all the employee who are working under BLAKE.
+select * from emp where mgr =(select empno form emp where ename='BLAKE');
+
+this is known as single row subquery
+
+operator used in single row sub query is equal to.
+
+listout all the employee who are working in sales department
+select * from emp where deptno=(select deptno from dept where dname='SALES')
+
+
+
+
+-------------------------------------
+Multiple row SUBQUERY
+
+disp all the emp details whose sal is equal to sal of deptno 20.
+
+
+select * from emp where sal =(select sal from emp where deptno=20);
+it will return more than one row
+
+select * from emp where sal in(select sal from emp where deptno=20);
+ 
+select * from emp where sal >all (select avg(sal) from emp group by deptno)
+
+select * from emp where sal >any (select avg(sal) from emp group by deptno)
+
+
+multiple column subquery
+listout emp details whose job and sal is equal to the job and sal of emp blake;
+
+select * from emp where(job,mgr) in (select job,mgr from emp where ename='BLAKE') 
+
+
+Inline views
+
+when a subquery will start with form clause is known as inline views subquery.
+
+select rownum from emp;
+
+select * from emp where rownum =1;
+ 
+ select * from emp where rownum =2;
+ row num never works on greaterthan one positive integaers
+ 
+ select * from emp where rownum <= 2;
+ 
+ select * from emp where rownum >=2;
+ it will not work,
+ 
+ i want to see last two rows
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+  
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
